@@ -89,7 +89,7 @@ kubectl get ingress
 Se stai utilizzando Minikube, puoi ottenere l'URL per accedere al servizio con il seguente comando:
 
 ```bash
-minikube service seminario-service --url
+minikube service seminario-service
 ```
 
 ### 8. Eseguire rollouts e rollbacks

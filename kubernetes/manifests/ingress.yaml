@@ -2,7 +2,7 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
     name: seminario-ingress
-    namespace: seminario-applications-ns
+    namespace: workshop
 spec:
     rules:
     - host: seminario.example.com

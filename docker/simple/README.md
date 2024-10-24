@@ -83,6 +83,14 @@ Questo Dockerfile crea un'immagine Docker che compila e pubblica un'applicazione
 
 ## Comandi Docker per Creare e Lanciare l'Immagine
 
+### Minikube
+
+Per caricare le immagini buildate su minikube occorre lanciare come primo comando:
+
+```sh
+eval $(minikube docker-env)
+```
+
 ### Creazione dell'Immagine Docker
 
 Per creare l'immagine Docker con un tag specifico, utilizza il seguente comando:

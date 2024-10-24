@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
     name: seminario-deployment
-    namespace: seminario-applications-ns
+    namespace: workshop
 spec:
     replicas: 3
     selector:
@@ -16,6 +16,7 @@ spec:
             containers:
             - name: seminario-container
               image: seminario-dotnet-ms:latest
+              imagePullPolicy: IfNotPresent # Possible values: Always, IfNotPresent, Never
               ports:
               -   name: http
                   containerPort: 8080
