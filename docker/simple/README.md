@@ -71,9 +71,9 @@ Questo Dockerfile crea un'immagine Docker che compila e pubblica un'applicazione
 5. **Esposizione delle porte**:
     ```dockerfile
     EXPOSE 8080
-    EXPOSE 443
+    EXPOSE 8443
     ```
-    Espone le porte 8080 e 443 per consentire l'accesso all'applicazione.
+    Espone le porte 8080 e 8443 per consentire l'accesso all'applicazione.
 
 6. **Definizione del punto di ingresso**:
     ```dockerfile

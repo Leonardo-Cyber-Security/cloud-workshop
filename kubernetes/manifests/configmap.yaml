@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+    name: seminario-config
+    namespace: seminario-applications-ns
+data:
+    # Add your configuration data here
