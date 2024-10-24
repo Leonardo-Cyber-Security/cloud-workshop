@@ -101,13 +101,41 @@ docker build -t dotnet-app:v1.0 .
 Per lanciare l'immagine Docker e fare il mapping della porta 8080 del container alla porta 8080 della macchina host, utilizza il seguente comando:
 
 ```sh
-docker run -p 8080:8080 nome-immagine:tag
+docker run -p 8080:8080 --name nome-container nome-immagine:tag
 ```
 
 Ad esempio, se hai creato l'immagine con il nome `dotnet-app` e il tag `v1.0`, esegui:
 
 ```sh
-docker run -p 8080:8080 dotnet-app:v1.0
+docker run -p 8080:8080 --name nome-container dotnet-app:v1.0
 ```
 
 Questo comando avvierà il container e mapperà la porta 8080 del container alla porta 8080 del tuo host, rendendo l'applicazione accessibile tramite http://localhost:8080. 
+
+### Visualizzazione dei Container in Esecuzione
+
+Per visualizzare tutti i container attualmente in esecuzione, utilizza il seguente comando:
+
+```sh
+docker ps
+```
+
+Questo comando elenca tutti i container in esecuzione, mostrando informazioni come l'ID del container, l'immagine utilizzata, il comando eseguito, il tempo di avvio, lo stato, le porte esposte e il nome del container.
+
+### Stop dei Container
+
+Per fermare un container in esecuzione, utilizza il seguente comando:
+
+```sh
+docker stop <container_id>
+```
+
+Sostituisci `<container_id>` con l'ID del container che desideri fermare. Puoi ottenere l'ID del container dalla lista generata dal comando `docker ps`.
+
+Ad esempio, se l'ID del container è `abc123`, esegui:
+
+```sh
+docker stop abc123
+```
+
+Questo comando invia un segnale di stop al container, permettendogli di terminare in modo pulito. Se il container non risponde al segnale di stop entro un certo periodo di tempo, Docker forza la terminazione del container.
