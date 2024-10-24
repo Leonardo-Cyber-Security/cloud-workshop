@@ -116,4 +116,14 @@ kubectl rollout restart deployment/seminario-deployment
 
 Questo comando riavvierà tutti i pod del Deployment senza downtime significativo.
 
+### 10. Debug del Pod (opzionale)
 
+Se hai bisogno di debuggare il pod, puoi accedere al pod con il seguente comando:
+
+```bash
+kubectl get pods -n <namespace>
+kubectl exec -it <nome-pod> -- /bin/bash
+```
+Sostituisci `<namespace>` con il nome del namespace in cui si trova il pod.
+
+Sostituisci `<nome-pod>` con il nome del pod che vuoi debuggare.
