@@ -36,6 +36,20 @@ spec:
 
 ---
 apiVersion: v1
+kind: Service
+metadata:
+  name: postgres-service
+  namespace: workshop
+spec:
+  type: ClusterIP
+  ports:
+    - port: 5432
+      targetPort: 5432
+  selector:
+    app: postgres
+
+---
+apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: postgres-pvc
