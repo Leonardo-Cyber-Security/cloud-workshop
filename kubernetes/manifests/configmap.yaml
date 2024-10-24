@@ -6,11 +6,20 @@ metadata:
 data:
     appsettings.json: |
         {
-            "Logging": {
-                "LogLevel": {
-                    "Default": "Information",
-                    "Microsoft": "Warning",
-                    "Microsoft.Hosting.Lifetime": "Information"
+            "Serilog": {
+                "MinimumLevel": {
+                "Default": "Information",
+                "Override": {
+                }
+                },
+                "WriteTo": [
+                {
+                    "Name": "Console"
+                }
+                ],
+                "Enrich": [ "FromLogContext", "WithMachineName", "WithThreadId" ],
+                "Properties": {
+                "Application": "Workshop"
                 }
             },
             "AllowedHosts": "*"
