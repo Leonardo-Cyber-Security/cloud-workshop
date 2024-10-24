@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
+using DotnetMSWorkshop.Db;
 using DotnetMSWorkshop.Utils.Filters;
 using DotnetMSWorkshop.Utils.Formatters;
 using DotnetMSWorkshop.Utils.OpenApi;
@@ -10,7 +11,6 @@ using Serilog;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Reflection;
-using System.Configuration;
 
 namespace DotnetMSWorkshop
 {
@@ -22,12 +22,11 @@ namespace DotnetMSWorkshop
             var builder = WebApplication.CreateBuilder(args);
 
             // Add appsettings from kubernetes configmap
-            builder.Configuration.AddEnvironmentVariables();
             builder.Configuration
                 .SetBasePath(Directory.GetCurrentDirectory())
                 .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
                 .AddJsonFile($"appsettings.{builder.Environment.EnvironmentName}.json", optional: true, reloadOnChange: true)
-                .AddJsonFile($"/app/Settings/appsettings.{builder.Environment.EnvironmentName}.json", optional: true, reloadOnChange: true);
+                .AddEnvironmentVariables();
 
             // Add services to the container.
             builder.Services.AddControllers(options =>
@@ -75,14 +74,8 @@ namespace DotnetMSWorkshop
             builder.Services.AddHealthChecks();
 
             #region SQL Connection
-            builder.Services.AddDbContextPool<DbContext>((serviceProvider, optionsBuilder) =>
-            {
-                optionsBuilder
-                    .UseLazyLoadingProxies()
-                    .UseSqlServer(builder.Configuration.GetValue<string>("DbConnectionName"));
-                optionsBuilder.LogTo(Log.Logger.Information, LogLevel.Information, null);
-                optionsBuilder.EnableSensitiveDataLogging();
-            });
+            builder.Services.AddDbContext<AppDbContext>(options =>
+                options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
             #endregion
 
             builder.Services.AddHttpContextAccessor();

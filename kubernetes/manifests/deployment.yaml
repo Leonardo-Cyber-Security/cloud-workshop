@@ -24,3 +24,6 @@ spec:
               -   name: https
                   containerPort: 8443
                   protocol: TCP
+              envFrom:
+              - secretRef:
+                  name: seminario-secret

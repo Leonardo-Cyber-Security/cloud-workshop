@@ -4,4 +4,14 @@ metadata:
     name: seminario-config
     namespace: workshop
 data:
-    # Add your configuration data here
+    appsettings.json: |
+        {
+            "Logging": {
+                "LogLevel": {
+                    "Default": "Information",
+                    "Microsoft": "Warning",
+                    "Microsoft.Hosting.Lifetime": "Information"
+                }
+            },
+            "AllowedHosts": "*"
+        }
