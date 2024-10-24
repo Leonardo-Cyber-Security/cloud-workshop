@@ -12,7 +12,10 @@ namespace DotnetMSWorkshop.Db
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Item>()
-                .ToTable("Items"); // Mappa la classe alla tabella Items
+                .ToTable("items"); // Mappa la classe alla tabella Items
+            modelBuilder.Entity<Item>()
+                .Property(e => e.Name)
+                .HasColumnName("name");
         }
     }
 }

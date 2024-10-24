@@ -4,7 +4,7 @@ metadata:
     name: seminario-deployment
     namespace: workshop
 spec:
-    replicas: 3
+    replicas: 1
     selector:
         matchLabels:
             app: seminario-app
@@ -25,8 +25,8 @@ spec:
                         containerPort: 8443
                         protocol: TCP
                   env:
-                      - name: ConnectionStrings__DefaultConnection
-                        valueFrom:
-                            secretKeyRef:
+                    - name: ConnectionStrings__DefaultConnection
+                      valueFrom:
+                        secretKeyRef:
                             name: seminario-secret
                             key: connectionString
