@@ -1,0 +1,16 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+    name: seminario-ingress
+spec:
+    rules:
+    - host: seminario.example.com
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: seminario-service
+                port:
+                  number: 80

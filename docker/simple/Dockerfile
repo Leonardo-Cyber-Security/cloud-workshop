@@ -16,6 +16,6 @@ COPY --from=build ./app/publish .
 RUN find /app/
 
 EXPOSE 8080
-EXPOSE 443
+EXPOSE 8443
 
 ENTRYPOINT ["dotnet", "DotnetMSWorkshopAPI.dll"]
