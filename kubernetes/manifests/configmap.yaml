@@ -1,0 +1,26 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+    name: seminario-config
+    namespace: workshop
+data:
+    appsettings.json: |
+        {
+            "Serilog": {
+                "MinimumLevel": {
+                "Default": "Information",
+                "Override": {
+                }
+                },
+                "WriteTo": [
+                {
+                    "Name": "Console"
+                }
+                ],
+                "Enrich": [ "FromLogContext", "WithMachineName", "WithThreadId" ],
+                "Properties": {
+                "Application": "Workshop"
+                }
+            },
+            "AllowedHosts": "*"
+        }

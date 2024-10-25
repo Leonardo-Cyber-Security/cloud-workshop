@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+    name: seminario-deployment
+    namespace: workshop
+spec:
+    replicas: 1
+    selector:
+        matchLabels:
+            app: seminario-app
+    template:
+        metadata:
+            labels:
+                app: seminario-app
+        spec:
+            containers:
+                - name: seminario-container
+                  image: seminario-dotnet-ms:latest
+                  imagePullPolicy: IfNotPresent # Possible values: Always, IfNotPresent, Never
+                  ports:
+                      - name: http
+                        containerPort: 8080
+                        protocol: TCP
+                      - name: https
+                        containerPort: 8443
+                        protocol: TCP
+                  env:
+                    - name: ConnectionStrings__DefaultConnection
+                      valueFrom:
+                        secretKeyRef:
+                            name: seminario-secret
+                            key: connectionString

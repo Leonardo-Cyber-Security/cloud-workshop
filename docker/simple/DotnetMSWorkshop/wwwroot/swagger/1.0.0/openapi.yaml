@@ -1,0 +1,45 @@
+openapi: 3.0.1
+info:
+  title: Workshop
+  description: Workshop
+  version: 1.0.0
+paths:
+  /Test/TestGET:
+    get:
+      tags:
+        - Test
+      summary: Test
+      description: Restituisce la lista
+      parameters:
+        - name: ItemName
+          in: query
+          description: ItemName
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Dati restituiti correttamente
+        '204':
+          description: Nessun dato presente
+        '500':
+          description: Internal server error
+  /Test/GetItems:
+    get:
+      tags:
+        - Test
+      summary: Test
+      description: Restituisce la lista
+      parameters:
+        - name: search
+          in: query
+          description: ItemName
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Dati restituiti correttamente
+        '204':
+          description: Nessun dato presente
+        '500':
+          description: Internal server error
+components: { }
