@@ -24,6 +24,31 @@ spec:
                       - name: https
                         containerPort: 8443
                         protocol: TCP
+                  livenessProbe:
+                    httpGet:
+                      path: "/health/liveness"
+                      port: http
+                    initialDelaySeconds: 20
+                    timeoutSeconds: 5
+                    periodSeconds: 30
+                    successThreshold: 1
+                    failureThreshold: 5
+                  readinessProbe:
+                    httpGet:
+                      path: "/health/readiness"
+                      port: http
+                    initialDelaySeconds: 30
+                    timeoutSeconds: 60
+                    periodSeconds: 30
+                    successThreshold: 1
+                    failureThreshold: 5
+                  resources:
+                    requests:
+                      memory: "500Mi"
+                      cpu: "150m"
+                    limits:
+                      memory: "1.5Gi"
+                      cpu: "500m"
                   env:
                     - name: ConnectionStrings__DefaultConnection
                       valueFrom:
