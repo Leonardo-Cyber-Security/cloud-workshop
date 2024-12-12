@@ -92,7 +92,7 @@ Modify chart configurations using a custom `values.yaml` file.
 
 4. **Verify Changes**:  
    ```bash
-   kubectl get svc -n demo
+   kubectl get all -n demo
    ```
    Check for the `NodePort` service type.
 
@@ -134,7 +134,7 @@ Create a custom Helm chart and package it in OCI format.
 5. **Install from OCI Registry**:
    If you have access to the OCI registry, install the chart directly from the registry:
    ```bash
-   helm install my-oci-chart oci://<registry_url>/my-charts/my-chart --version 0.1.0
+   helm install my-oci-chart oci://<registry_url>/my-charts/my-chart --version 0.1.0 -n demo
    ```
 
 ---
@@ -161,12 +161,39 @@ Add a dependency to your chart and manage it effectively.
 
 3. **Install Chart with Dependencies**:  
    ```bash
-   helm install my-app ./my-chart
+   helm install my-app ./my-chart -n demo
    ```
 
-4. **Verify Redis Deployment**:  
+ 4. **Verify Deployment**:  
+    ```bash
+    kubectl get all -n demo
+    ```
+    You will see the main chart and the dependent WordPress chart deployed.
+
+4. **Add Dependency Configuration**:
+    Add the `wordpress` section to `values.yaml`:
+    ```yaml
+    wordpress:
+      wordpressUsername: admin
+      wordpressPassword: password123
+      service:
+        type: NodePort
+    ```
+
+5. **Upgrade the Chart**:  
    ```bash
-   kubectl get pods
+   helm upgrade my-app ./my-chart -n demo
+   ```
+
+6. **Verify Changes**:  
+   ```bash
+    kubectl get all -n demo
+    ```
+    Check for the updated configuration.
+
+7. **Remove the Chart**:  
+   ```bash
+   helm uninstall my-app -n demo
    ```
 
 ---
@@ -182,12 +209,23 @@ Leverage a Helm library to reuse common templates.
    helm create my-library
    ```
 
+2. Change chart type to `library` in `Chart.yaml`:
+   ```yaml
+   type: library
+   ```
+
+3. Remove unnecessary files and directories:
+   ```bash
+   rm -rf my-library/charts my-library/templates/*
+   ```
+
+
 2. **Add a Helper Template**:  
    Edit `templates/_helpers.tpl` in the library chart:  
    ```yaml
    {{- define "common.labels" -}}
-   app: {{ .Chart.Name }}
-   release: {{ .Release.Name }}
+   hello: world
+   some: label
    {{- end -}}
    ```
 
@@ -205,9 +243,21 @@ Leverage a Helm library to reuse common templates.
    ```yaml
    metadata:
      labels:
-       {{ include "common.labels" . | nindent 6 }}
+       {{ include "common.labels" . | nindent 4 }}
    ```
-
+5. **Update Dependencies**:  
+   ```bash
+   helm dependency update my-chart
+   ```
+6. **Install the Chart**:  
+   ```bash
+    helm install my-app ./my-chart -n demo
+    ```
+7. **Verify Deployment**:
+    ```bash
+    kubectl get deployments -n demo
+    ```
+    Check for the labels applied to the resources.
 ---
 
 ## **Exercise 6: Debugging Helm Charts**
@@ -229,13 +279,12 @@ Practice troubleshooting Helm deployments.
    ```bash
    helm install my-debug-chart ./my-chart --dry-run --debug
    ```
+    > This simulates the installation without actually deploying resources.
 
-4. **Check Logs and Events**:  
-   ```bash
-   kubectl describe pods -n <namespace>
-   kubectl logs <pod_name>
-   ```
+4. **Individuate the Issue**:  
+   Check the output for errors and debug messages.
 
+   Solve the issue to continue with the next steps.
 ---
 
 ## **Exercise 7: Upgrades and Rollbacks**
@@ -254,34 +303,13 @@ Perform and manage upgrades and rollbacks of releases.
    helm upgrade my-release ./my-chart
    ```
 
-2. **Rollback to Previous Version**:  
+2. **Verify the Upgrade**:  
    ```bash
-   helm rollback my-release 1
-   ```
+    kubectl get pods
+    ```
+    Check for the new replica count.
 
----
-
-## **Exercise 8: Automating with CI/CD**
-
-### **Objective**  
-Integrate Helm with a CI/CD pipeline for automated deployments.
-
-### **Steps**
-1. **Script the Deployment**:  
-   Create a script to automate installation:
+3. **Rollback to Previous Version**:  
    ```bash
-   # deploy.sh
-   helm upgrade --install my-app ./my-chart -f values-prod.yaml --namespace prod
+   helm rollback my-release
    ```
-
-2. **Integrate with CI/CD Tool**:  
-   Add the script to your CI/CD pipeline (e.g., GitHub Actions, Jenkins).  
-   Example GitHub Action step:
-   ```yaml
-   - name: Deploy Helm Chart
-     run: ./deploy.sh
-   ```
-
----
-
-These exercises cover a range of Helm functionalities, from basics to advanced features, ensuring you gain hands-on experience with real-world scenarios. Would you like to dive deeper into any specific topic?
