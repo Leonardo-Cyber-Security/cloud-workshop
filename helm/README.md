@@ -24,7 +24,7 @@ Install a sample Helm chart to understand the basics of `helm install`.
 ### **Steps**
 1. **Add a Helm Repository**:  
    ```bash
-   helm repo add bitnami  
+   helm repo add bitnami https://charts.bitnami.com/bitnami
    helm repo update
    ```
    > This adds the Bitnami repository, which hosts a variety of pre-built charts.
